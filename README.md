@@ -1,4 +1,4 @@
 # todo_app
-Java 
-recycleView 
-clone app
+# Java 
+# recycleView 
+# clone app

@@ -3,4 +3,9 @@
  
  recycleView 
  
+ adapter
+ 
+ database(SqlLite)
+ 
+ 
  clone app

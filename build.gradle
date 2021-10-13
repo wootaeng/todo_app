@@ -16,6 +16,10 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven {
+            name "Huvle"
+            url "http://sdk.huvle.com:8080/repository/internal"
+        }
     }
 }
 

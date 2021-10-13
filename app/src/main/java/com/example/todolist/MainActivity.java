@@ -5,11 +5,20 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.byappsoft.huvleadlib.ANClickThroughAction;
+import com.byappsoft.huvleadlib.AdListener;
+import com.byappsoft.huvleadlib.AdView;
+import com.byappsoft.huvleadlib.BannerAdView;
+import com.byappsoft.huvleadlib.NativeAdResponse;
+import com.byappsoft.huvleadlib.ResultCode;
+import com.byappsoft.huvleadlib.SDKSettings;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -42,7 +51,42 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         openDatabase();
+
+        setHuvleAD();
     }
+
+    //huvle
+    private void setHuvleAD() {
+        SDKSettings.useHttps(true);
+        final BannerAdView staticBav = findViewById(R.id.banner_view);
+        // 아래 "test" 값은 http://ssp.huvle.com/ 에서 가입 > 매체생성 > zoneid 입력후 테스트 하시고, release시점에 허블에 문의주시면 인증됩니다. 배너사이즈는 변경하지 마세요.
+        initBannerView(staticBav, "test",320,50);
+    }
+    private void initBannerView(final BannerAdView bav, String id, int w , int h) {
+        bav.setPlacementID(id);
+        bav.setAdSize(w, h);
+        bav.setShouldServePSAs(false);
+        bav.setClickThroughAction(ANClickThroughAction.OPEN_DEVICE_BROWSER); // 광고 클릭시 브라우저를 기본브라우저로 Open
+        bav.setResizeAdToFitContainer(true);
+        AdListener adListener = new AdListener() {
+            @Override public void onAdRequestFailed(AdView bav, ResultCode errorCode) {/*광고가 없을때 처리*/}
+            @Override public void onAdLoaded(AdView bav) {
+                Log.v("Huvle_Banner", "The Ad Loaded!");}
+            @Override public void onAdLoaded(NativeAdResponse nativeAdResponse) {Log.v("Huvle_Banner", "Ad onAdLoaded NativeAdResponse");}
+            @Override public void onAdExpanded(AdView bav) {Log.v("Huvle_Banner", "Ad expanded");}
+            @Override public void onAdCollapsed(AdView bav) {Log.v("Huvle_Banner", "Ad collapsed");}
+            @Override public void onAdClicked(AdView bav) {Log.v("Huvle_Banner", "Ad clicked; opening browser");}
+            @Override public void onAdClicked(AdView adView, String clickUrl) {Log.v("Huvle_Banner", "onAdClicked with click URL");}
+            @Override public void onLazyAdLoaded(AdView adView) {}
+        };
+        bav.setAdListener(adListener);
+        new Handler().postDelayed(new Runnable() {
+            @Override public void run() {
+                bav.loadAd();
+            }
+        }, 0);
+    }
+
     private void saveToDo(){
         inputToDo = findViewById(R.id.inputToDo);
 

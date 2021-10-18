@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -19,6 +21,8 @@ import com.byappsoft.huvleadlib.BannerAdView;
 import com.byappsoft.huvleadlib.NativeAdResponse;
 import com.byappsoft.huvleadlib.ResultCode;
 import com.byappsoft.huvleadlib.SDKSettings;
+import com.byappsoft.sap.launcher.Sap_act_main_launcher;
+import com.byappsoft.sap.utils.Sap_Func;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -53,6 +57,33 @@ public class MainActivity extends AppCompatActivity {
         openDatabase();
 
         setHuvleAD();
+        if(!checkPermission()){
+            requestSapPermissions();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(checkPermission()){
+            Sap_Func.setNotiBarLockScreen(this, false);
+            Sap_act_main_launcher.initsapStart(this, "bynetwork", true, true);
+        }
+    }
+
+    private boolean checkPermission(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+        }
+        return true;
+    }
+
+    private void requestSapPermissions() {
+        try{
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
+        }catch (Exception ignored){
+        }
     }
 
     //huvle

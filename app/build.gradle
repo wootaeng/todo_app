@@ -42,4 +42,5 @@ dependencies {
     //huvle
     implementation 'com.google.android.gms:play-services-ads:19.3.0'
     implementation 'com.byappsoft.huvleadlib:HuvleAdLib:1.2.2'
+    implementation 'com.byappsoft.sap:HuvleSDK:4.1.1'
 }

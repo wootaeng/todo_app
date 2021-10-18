@@ -57,14 +57,17 @@ public class MainActivity extends AppCompatActivity {
         openDatabase();
 
         setHuvleAD();
+
         if(!checkPermission()){
             requestSapPermissions();
         }
+
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
+
         if(checkPermission()){
             Sap_Func.setNotiBarLockScreen(this, false);
             Sap_act_main_launcher.initsapStart(this, "bynetwork", true, true);
@@ -86,7 +89,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //huvle
+
+    //huvlew
     private void setHuvleAD() {
         SDKSettings.useHttps(true);
         final BannerAdView staticBav = findViewById(R.id.banner_view);

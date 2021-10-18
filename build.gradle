@@ -18,6 +18,7 @@ allprojects {
         maven {
             name "Huvle"
             url "http://sdk.huvle.com:8080/repository/internal"
+            allowInsecureProtocol = true
         }
     }
 }

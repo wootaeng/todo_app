@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TodoList</string>
+    <string name="custom_noti_icon_1">todo</string>
 </resources>
